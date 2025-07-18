@@ -29,47 +29,44 @@ const Shop = () => {
       name: 'Essential Tee',
       price: '$85',
       images: [
-        'public/images/products/1stback.jpeg',
-        'public/images/products/1stfront.jpeg',
-      ],
-      video: 'public/images/products/philosophy.mp4',
-      category: 'Basics'
-    },
-    {
-      id: 2,
-      name: 'Relaxed Tee',
-      price: '$185',
-      images: [
-         'public/images/products/2ndback.png',
-        'public/images/products/2ndfront.png',
-       
-        
-      ],
-      video: 'public/images/products/2ndvideo.mp4',
-      category: 'Basics'
-    },
-    {
-      id: 3,
-      name: 'Oversized Tee',
-      price: '$285',
-      images: [
-        'public/images/products/3rdback.png',
-        'public/images/products/3rdfront.png',
-        
-      ],
-      video: 'https://videos.pexels.com/video-files/5319737/5319737-hd_1080_1920_30fps.mp4',
-      category: 'Outerwear'
-    },
-    {
-      id: 4,
-      name: 'Minimal Dress',
-      price: '$225',
-      images: [
-        'https://images.pexels.com/photos/5480699/pexels-photo-5480699.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
-        'https://images.pexels.com/photos/5480860/pexels-photo-5480860.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
-        'https://images.pexels.com/photos/5480861/pexels-photo-5480861.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop'
-      ],
-      video: 'https://videos.pexels.com/video-files/5319738/5319738-hd_1080_1920_30fps.mp4',
+        '/images/products/1stback.jpeg',
+    '/images/products/1stfront.jpeg',
+  ],
+  video: '/images/products/philosophy.mp4',
+  category: 'Basics'
+},
+{
+  id: 2,
+  name: 'Relaxed Tee',
+  price: '$185',
+  images: [
+    '/images/products/2ndback.png',
+    '/images/products/2ndfront.png',
+  ],
+  video: '/images/products/2ndvideo.mp4',
+  category: 'Basics'
+},
+{
+  id: 3,
+  name: 'Oversized Tee',
+  price: '$285',
+  images: [
+    '/images/products/3rdback.png',
+    '/images/products/3rdfront.png',
+  ],
+  video: 'https://videos.pexels.com/video-files/5319737/5319737-hd_1080_1920_30fps.mp4',
+  category: 'Outerwear'
+},
+{
+  id: 4,
+  name: 'Minimal Dress',
+  price: '$225',
+  images: [
+    '/images/products/4thback.jpeg',
+    '/images/products/4thfront.jpeg',
+    '/images/products/4thside.jpeg'
+  ],
+  video: '/images/products/4thvideo.mp4',
       category: 'Dresses'
     },
     {
