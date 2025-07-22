@@ -32,7 +32,6 @@ const Shop = () => {
         '/images/products/1stback-min.jpeg',
     '/images/products/1stfront-min.jpeg',
   ],
-  video: '/images/products/philosophy.mp4',
   category: 'Basics'
 },
 {
@@ -43,7 +42,6 @@ const Shop = () => {
     '/images/products/2ndback-min.png',
     '/images/products/2ndfront-min.png',
   ],
-  video: '/images/products/2ndvideo.mp4',
   category: 'Basics'
 },
 {
@@ -54,7 +52,6 @@ const Shop = () => {
     '/images/products/3rdback-min.png',
     '/images/products/3rdfront-min.png',
   ],
-  video: 'https://videos.pexels.com/video-files/5319737/5319737-hd_1080_1920_30fps.mp4',
   category: 'Outerwear'
 },
 {
@@ -66,7 +63,6 @@ const Shop = () => {
     '/images/products/4thfront.jpeg',
     '/images/products/4thside.jpeg'
   ],
-  video: '/images/products/4thvideo.mp4',
       category: 'Dresses'
     },
     {
@@ -78,7 +74,6 @@ const Shop = () => {
         'https://images.pexels.com/photos/5480862/pexels-photo-5480862.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
         'https://images.pexels.com/photos/5480863/pexels-photo-5480863.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop'
       ],
-      video: 'https://videos.pexels.com/video-files/5319739/5319739-hd_1080_1920_30fps.mp4',
       category: 'Knitwear'
     },
     {
@@ -90,7 +85,6 @@ const Shop = () => {
         'https://images.pexels.com/photos/5480864/pexels-photo-5480864.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
         'https://images.pexels.com/photos/5480865/pexels-photo-5480865.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop'
       ],
-      video: 'https://videos.pexels.com/video-files/5319740/5319740-hd_1080_1920_30fps.mp4',
       category: 'Bottoms'
     },
     {
@@ -102,7 +96,6 @@ const Shop = () => {
         'https://images.pexels.com/photos/5480866/pexels-photo-5480866.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
         'https://images.pexels.com/photos/5480867/pexels-photo-5480867.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop'
       ],
-      video: 'https://videos.pexels.com/video-files/5319741/5319741-hd_1080_1920_30fps.mp4',
       category: 'Tops'
     },
     {
@@ -114,7 +107,6 @@ const Shop = () => {
         'https://images.pexels.com/photos/5480868/pexels-photo-5480868.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop',
         'https://images.pexels.com/photos/5480869/pexels-photo-5480869.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop'
       ],
-      video: 'https://videos.pexels.com/video-files/5319742/5319742-hd_1080_1920_30fps.mp4',
       category: 'Outerwear'
     }
   ];
