@@ -23,7 +23,7 @@ const Shop = () => {
     {
       id: 1,
       name: 'Essential Tee',
-      price: '$85',
+      price: 'Rs. 1499',
       images: [
         '/images/products/1stback-min.jpeg',
         '/images/products/1stfront-min.jpeg'
@@ -33,7 +33,7 @@ const Shop = () => {
     {
       id: 2,
       name: 'Relaxed Tee',
-      price: '$185',
+      price: 'Rs. 1499',
       images: [
         '/images/products/2ndback-min.png',
         '/images/products/2ndfront-min.png'
@@ -43,7 +43,7 @@ const Shop = () => {
     {
       id: 3,
       name: 'Oversized Tee',
-      price: '$285',
+      price: 'Rs. 1299',
       images: [
         '/images/products/3rdback-min.png',
         '/images/products/3rdfront-min.png'
