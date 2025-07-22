@@ -36,7 +36,7 @@ const Drops = () => {
       id: 2,
       name: 'Minimal Luxe',
       description: 'Elevated basics in premium fabrics',
-      image: 'public/images/drops/lux.jpg',
+      image: '/images/drops/lux.jpg',
       status: 'Coming Soon',
       pieces: '8 pieces'
     },
@@ -44,7 +44,7 @@ const Drops = () => {
       id: 3,
       name: 'Studio Session',
       description: 'As if it came straight out of an artist’s private world.',
-      image: 'public/images/drops/artist.jpg',
+      image: '/images/drops/artist.jpg',
       status: 'Pre-Order',
       pieces: '15 pieces'
     }

@@ -57,7 +57,7 @@ const About = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
             <img 
-              src="public\images\about\Lucid_Realism_A_soft_editorialstyle_fashion_photograph_A_young_1.jpg"
+              src="/images/about/philosophy-cover.jpg"
               alt="Still Philosophy"
               className="w-full h-[600px] object-cover rounded-sm"
             />
