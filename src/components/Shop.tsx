@@ -63,35 +63,64 @@ const Shop = () => {
   ];
 
   const ProductCard = ({ product, index }: { product: any; index: number }) => {
-    const [hovered, setHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [hovered, setHovered] = useState(false);
 
-    return (
-      <div
-        className={`group bg-white transition-all duration-1000 overflow-hidden ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-        style={{ transitionDelay: `${index * 100}ms` }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <div className="relative w-full h-96 sm:h-80 md:h-96 overflow-hidden">
-          <img
-            src={hovered ? product.images[1] : product.images[0]}
-            alt={product.name}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-          />
-          <div className="absolute top-4 left-4 bg-white/80 px-3 py-1 text-xs uppercase font-light text-gray-700">
-            {product.category}
-          </div>
-        </div>
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Tailwind's md breakpoint
+    };
 
-        <div className="p-6">
-          <h3 className="text-lg font-light text-gray-900 mb-1">{product.name}</h3>
-          <p className="text-gray-700 text-base font-light">{product.price}</p>
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(() => {
+        setCurrentImage((prev) => (prev === 0 ? 1 : 0));
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile]);
+
+  const displayedImage = isMobile
+    ? product.images[currentImage]
+    : hovered
+    ? product.images[1]
+    : product.images[0];
+
+  return (
+    <div
+      className={`group bg-white transition-all duration-1000 overflow-hidden ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="relative w-full h-96 sm:h-80 md:h-96 overflow-hidden">
+        <img
+          src={displayedImage}
+          alt={product.name}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+        />
+        <div className="absolute top-4 left-4 bg-white/80 px-3 py-1 text-xs uppercase font-light text-gray-700">
+          {product.category}
         </div>
       </div>
-    );
-  };
+
+      <div className="p-6">
+        <h3 className="text-lg font-light text-gray-900 mb-1">{product.name}</h3>
+        <p className="text-gray-700 text-base font-light">{product.price}</p>
+      </div>
+    </div>
+  );
+};
+
 
   return (
     <section id="shop" className="py-20 lg:py-32 bg-white">
@@ -117,7 +146,7 @@ const Shop = () => {
         </div>
 
         <div
-          className={`text-center mt-16 transition-all duration-1000 delay-700 ${
+          className={`text-center mt-10 transition-all duration-1000 delay-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
