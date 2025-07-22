@@ -29,8 +29,8 @@ const Shop = () => {
       name: 'Essential Tee',
       price: '$85',
       images: [
-        '/images/products/1stback.jpeg',
-    '/images/products/1stfront.jpeg',
+        '/images/products/1stback-min.jpeg',
+    '/images/products/1stfront-min.jpeg',
   ],
   video: '/images/products/philosophy.mp4',
   category: 'Basics'
@@ -40,8 +40,8 @@ const Shop = () => {
   name: 'Relaxed Tee',
   price: '$185',
   images: [
-    '/images/products/2ndback.png',
-    '/images/products/2ndfront.png',
+    '/images/products/2ndback-min.png',
+    '/images/products/2ndfront-min.png',
   ],
   video: '/images/products/2ndvideo.mp4',
   category: 'Basics'
@@ -51,8 +51,8 @@ const Shop = () => {
   name: 'Oversized Tee',
   price: '$285',
   images: [
-    '/images/products/3rdback.png',
-    '/images/products/3rdfront.png',
+    '/images/products/3rdback-min.png',
+    '/images/products/3rdfront-min.png',
   ],
   video: 'https://videos.pexels.com/video-files/5319737/5319737-hd_1080_1920_30fps.mp4',
   category: 'Outerwear'
