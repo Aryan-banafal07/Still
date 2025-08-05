@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Eye, EyeOff, Mail } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 
 interface LoginProps {
   onBack: () => void;
@@ -7,8 +8,11 @@ interface LoginProps {
 }
 
 const Login = ({ onBack, onLogin }: LoginProps) => {
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,10 +21,50 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
     lastName: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login/signup logic here
-    onLogin();
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (isSignUp) {
+        if (formData.password !== formData.confirmPassword) {
+          throw new Error('Passwords do not match');
+        }
+
+        const { error } = await signUp(formData.email, formData.password, {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+        });
+
+        if (error) throw error;
+        
+        // Show success message for sign up
+        alert('Please check your email to confirm your account');
+      } else {
+        const { error } = await signIn(formData.email, formData.password);
+        if (error) throw error;
+        onLogin();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) throw error;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,10 +95,18 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
             </p>
           </div>
 
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Google Sign In Button */}
             <button
               type="button"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
               className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors duration-300 font-light"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -116,6 +168,7 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-200 focus:border-gray-400 focus:outline-none transition-colors duration-300 font-light"
+                disabled={loading}
                 required
               />
             </div>
@@ -131,6 +184,7 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
                   value={formData.password}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 pr-12 border border-gray-200 focus:border-gray-400 focus:outline-none transition-colors duration-300 font-light"
+                  disabled={loading}
                   required
                 />
                 <button
@@ -154,6 +208,9 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-200 focus:border-gray-400 focus:outline-none transition-colors duration-300 font-light"
+                  disabled={loading}
+                  disabled={loading}
+                  disabled={loading}
                   required
                 />
               </div>
@@ -161,9 +218,10 @@ const Login = ({ onBack, onLogin }: LoginProps) => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-gray-900 text-white py-3 px-6 hover:bg-gray-800 transition-colors duration-300 font-light"
             >
-              {isSignUp ? 'Create Account' : 'Sign In'}
+              {loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}
             </button>
           </form>
 

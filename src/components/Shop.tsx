@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useProducts } from '../hooks/useProducts';
+import { useCart } from '../hooks/useCart';
+import { ShoppingCart, Heart } from 'lucide-react';
 
 const Shop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { products, loading: productsLoading } = useProducts();
+  const { addToCart, loading: cartLoading } = useCart();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -19,48 +24,14 @@ const Shop = () => {
     return () => observer.disconnect();
   }, []);
 
-  const products = [
-    {
-      id: 1,
-      name: 'Essential Tee',
-      price: 'Rs. 1499',
-      images: [
-        '/images/products/1stback-min.jpeg',
-        '/images/products/1stfront-min.jpeg'
-      ],
-      category: 'Basics'
-    },
-    {
-      id: 2,
-      name: 'Relaxed Tee',
-      price: 'Rs. 1499',
-      images: [
-        '/images/products/2ndback-min.png',
-        '/images/products/2ndfront-min.png'
-      ],
-      category: 'Basics'
-    },
-    {
-      id: 3,
-      name: 'Oversized Tee',
-      price: 'Rs. 1299',
-      images: [
-        '/images/products/3rdback-min.png',
-        '/images/products/3rdfront-min.png'
-      ],
-      category: 'Outerwear'
-    },
-    {
-      id: 4,
-      name: 'Minimal Dress',
-      price: '$225',
-      images: [
-        '/images/products/4thback.jpeg',
-        '/images/products/4thfront.jpeg'
-      ],
-      category: 'Dresses'
+  const handleAddToCart = async (productId: string) => {
+    const { error } = await addToCart(productId, 1);
+    if (error) {
+      alert(error);
+    } else {
+      alert('Added to cart!');
     }
-  ];
+  };
 
   const ProductCard = ({ product, index }: { product: any; index: number }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -88,9 +59,9 @@ const Shop = () => {
   }, [isMobile]);
 
   const displayedImage = isMobile
-    ? product.images[currentImage]
+    ? product.images[currentImage] || product.images[0]
     : hovered
-    ? product.images[1]
+    ? product.images[1] || product.images[0]
     : product.images[0];
 
   return (
@@ -111,11 +82,33 @@ const Shop = () => {
         <div className="absolute top-4 left-4 bg-white/80 px-3 py-1 text-xs uppercase font-light text-gray-700">
           {product.category}
         </div>
+        
+        {/* Action buttons on hover */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+          <div className="flex space-x-3">
+            <button
+              onClick={() => handleAddToCart(product.id)}
+              disabled={cartLoading}
+              className="bg-white text-black p-3 hover:bg-gray-100 transition-colors duration-300 disabled:opacity-50"
+            >
+              <ShoppingCart size={20} />
+            </button>
+            <button className="bg-white text-black p-3 hover:bg-gray-100 transition-colors duration-300">
+              <Heart size={20} />
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="p-6">
         <h3 className="text-lg font-light text-gray-900 mb-1">{product.name}</h3>
-        <p className="text-gray-700 text-base font-light">{product.price}</p>
+        <p className="text-gray-700 text-base font-light">₹{product.price}</p>
+        {product.stock_quantity <= 5 && product.stock_quantity > 0 && (
+          <p className="text-orange-600 text-xs mt-1">Only {product.stock_quantity} left</p>
+        )}
+        {product.stock_quantity === 0 && (
+          <p className="text-red-600 text-xs mt-1">Out of stock</p>
+        )}
       </div>
     </div>
   );
@@ -139,11 +132,18 @@ const Shop = () => {
           </p>
         </div>
 
+        {productsLoading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p className="mt-4 text-gray-600">Loading products...</p>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
+          {products.slice(0, 4).map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}
         </div>
+        )}
 
         <div
           className={`text-center mt-10 transition-all duration-1000 delay-700 ${

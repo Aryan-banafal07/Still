@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { Instagram, Mail } from 'lucide-react';
+import { useNewsletter } from '../hooks/useNewsletter';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const { subscribe, loading, error, success, reset } = useNewsletter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter signup
-    setEmail('');
+    
+    const { error } = await subscribe(email);
+    if (!error) {
+      setEmail('');
+    }
   };
 
   return (
@@ -35,20 +40,35 @@ const Footer = () => {
                 Subscribe for new collections and exclusive updates.
               </p>
               
+              {success && (
+                <div className="mb-4 p-3 bg-green-900/20 border border-green-800 text-green-400 text-sm">
+                  Thank you for subscribing! You'll receive updates about our latest collections.
+                </div>
+              )}
+              
+              {error && (
+                <div className="mb-4 p-3 bg-red-900/20 border border-red-800 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+              
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onFocus={reset}
                   placeholder="Enter your email"
                   className="flex-1 px-4 py-3 bg-transparent border border-gray-600 text-white placeholder-gray-500 focus:outline-none focus:border-white transition-colors duration-300 font-light"
+                  disabled={loading}
                   required
                 />
                 <button
                   type="submit"
+                  disabled={loading}
                   className="px-6 py-3 bg-white text-black hover:bg-gray-100 transition-colors duration-300 font-light whitespace-nowrap"
                 >
-                  Subscribe
+                  {loading ? 'Subscribing...' : 'Subscribe'}
                 </button>
               </form>
             </div>

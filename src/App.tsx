@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useAuth } from './hooks/useAuth';
 import LoadingScreen from './components/LoadingScreen';
 import Hero from './components/Hero';
 import Navigation from './components/Navigation';
@@ -11,9 +12,9 @@ import Login from './components/Login';
 import Footer from './components/Footer';
 
 function App() {
+  const { user, loading: authLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState('home');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,7 +24,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
+  if (isLoading || authLoading) {
     return <LoadingScreen />;
   }
 
@@ -32,7 +33,6 @@ function App() {
       <Login 
         onBack={() => setCurrentPage('home')}
         onLogin={() => {
-          setIsLoggedIn(true);
           setCurrentPage('home');
         }}
       />
@@ -43,8 +43,6 @@ function App() {
     <div className="min-h-screen bg-white">
       <Navigation 
         onLoginClick={() => setCurrentPage('login')}
-        isLoggedIn={isLoggedIn}
-        onLogout={() => setIsLoggedIn(false)}
       />
       <Hero />
       <About />

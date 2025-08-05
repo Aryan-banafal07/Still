@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, ShoppingCart } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { useCart } from '../hooks/useCart';
 
 interface NavigationProps {
   onLoginClick: () => void;
-  isLoggedIn: boolean;
-  onLogout: () => void;
 }
 
-const Navigation = ({ onLoginClick, isLoggedIn, onLogout }: NavigationProps) => {
+const Navigation = ({ onLoginClick }: NavigationProps) => {
+  const { user, signOut } = useAuth();
+  const { getCartItemCount } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  
+  const cartItemCount = getCartItemCount();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +31,11 @@ const Navigation = ({ onLoginClick, isLoggedIn, onLogout }: NavigationProps) => 
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMobileMenuOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setShowUserMenu(false);
   };
 
   return (
@@ -62,14 +71,26 @@ const Navigation = ({ onLoginClick, isLoggedIn, onLogout }: NavigationProps) => 
             
             {/* User Menu */}
             <div className="relative">
-              {isLoggedIn ? (
-                <div>
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  {/* Cart Icon */}
+                  <button className="relative text-gray-700 hover:text-black transition-colors duration-300">
+                    <ShoppingCart size={20} />
+                    {cartItemCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {cartItemCount}
+                      </span>
+                    )}
+                  </button>
+                  
+                  {/* User Menu */}
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center text-gray-700 hover:text-black transition-colors duration-300"
                   >
                     <User size={20} />
                   </button>
+                  
                   {showUserMenu && (
                     <div className="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg border border-gray-100 py-2">
                       <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-300">
@@ -79,7 +100,7 @@ const Navigation = ({ onLoginClick, isLoggedIn, onLogout }: NavigationProps) => 
                         Orders
                       </button>
                       <button 
-                        onClick={onLogout}
+                        onClick={handleSignOut}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-300"
                       >
                         Sign Out
@@ -129,13 +150,13 @@ const Navigation = ({ onLoginClick, isLoggedIn, onLogout }: NavigationProps) => 
               >
                 Lookbook
               </button>
-              {isLoggedIn ? (
+              {user ? (
                 <>
                   <button className="text-left text-base font-light text-gray-700 hover:text-black transition-colors duration-300">
                     Profile
                   </button>
                   <button 
-                    onClick={onLogout}
+                    onClick={handleSignOut}
                     className="text-left text-base font-light text-gray-700 hover:text-black transition-colors duration-300"
                   >
                     Sign Out
